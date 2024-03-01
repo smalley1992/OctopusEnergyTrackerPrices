@@ -51,7 +51,14 @@ async function displayTariffData(tariffType, symbolName) {
     const symbol = SFSymbol.named(symbolName); // Get the SF Symbol for the tariff type
     symbol.applyMediumWeight(); // Apply medium weight to the symbol for better visibility
     const img = row.addImage(symbol.image); // Add the symbol image to the row
-    img.tintColor = Color.white(); // Set the symbol's color to white
+    
+    // Set the symbol's color based on the tariff type
+    if (tariffType === "electricity") {
+        img.tintColor = new Color("#FFD700"); // Yellow for electricity
+    } else if (tariffType === "gas") {
+        img.tintColor = new Color("#FF4500"); // Fiery orange for gas
+    }
+    
     img.imageSize = new Size(30, 30); // Set the size of the symbol image
     img.resizable = true; // Allow the symbol image to be resizable
     row.addSpacer(8); // Add space after the symbol
