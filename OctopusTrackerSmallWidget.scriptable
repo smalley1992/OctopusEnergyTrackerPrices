@@ -8,7 +8,7 @@ widget.addSpacer(); // Add spacer to center the content vertically
 const headerStack = widget.addStack(); // Create a stack for the header to center text
 headerStack.addSpacer(); // Spacer to center the header
 const header = headerStack.addText("Tracker Tariff"); // Add header text
-header.font = Font.boldSystemFont(14); // Set the font and size of the header
+header.font = Font.boldSystemFont(15); // Set the font and size of the header
 header.textColor = Color.white(); // Set the color of the header text
 headerStack.addSpacer(); // Spacer to center the header
 widget.addSpacer(10); // Add space below the header
@@ -57,13 +57,13 @@ async function displayTariffData(tariffType, symbolName) {
     const img = row.addImage(symbol.image); // Add the symbol image to the row
     // Set the symbol's color based on the tariff type
     img.tintColor = tariffType === "electricity" ? new Color("#FFD700") : new Color("#FF4500"); // Yellow for electricity, fiery orange for gas
-    img.imageSize = new Size(35, 35); // Set the size of the symbol image
+    img.imageSize = new Size(30, 30); // Set the size of the symbol image
     img.resizable = true; // Allow the symbol image to be resizable
     
 
     // Display today's price in a large font
     let priceElement = row.addText(`${data.today}p`);
-    priceElement.font = Font.boldSystemFont(28);
+    priceElement.font = Font.boldSystemFont(26);
     priceElement.textColor = Color.white();
 
 
