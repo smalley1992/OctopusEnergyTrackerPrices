@@ -1,12 +1,16 @@
 // Scriptable Widget for Displaying Energy and Gas Tariff Information
-//CS March 2024
+// CS March 2024
 const widget = new ListWidget(); // Initialize a new list widget
 widget.backgroundColor = new Color("#100030"); // Set the background color of the widget
 
-widget.addSpacer(20); // Add space at the top
-const header = widget.addText("Tracker Tariff"); // Add header text
+widget.addSpacer(); // Add spacer to center the content vertically
+
+const headerStack = widget.addStack(); // Create a stack for the header to center text
+headerStack.addSpacer(); // Spacer to center the header
+const header = headerStack.addText("Tracker Tariff"); // Add header text
 header.font = Font.boldSystemFont(14); // Set the font and size of the header
 header.textColor = Color.white(); // Set the color of the header text
+headerStack.addSpacer(); // Spacer to center the header
 widget.addSpacer(8); // Add space below the header
 
 // Function to fetch tariff data for electricity or gas
@@ -14,9 +18,7 @@ async function fetchTariffData(tariffType) {
     const today = new Date(); // Get today's date
     const tomorrow = new Date(today.getTime() + 86400000); // Calculate tomorrow's date
     const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`; // Base URL for the API
-    const productCode = "SILVER-23-12-06"; // Product code for the tariff
-    const regionCode = "F"; // Region code (CHANGE THIS as needed)
-    const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`; // Construct the tariff code
+    const tariffCode = `${tariffType[0].toUpperCase()}-1R-SILVER-23-12-06-F`; // Construct the tariff code
     // Format today and tomorrow's dates as strings
     const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
@@ -33,7 +35,6 @@ async function fetchTariffData(tariffType) {
         let responseTomorrow = await new Request(urlTomorrow).loadJSON();
         dataTomorrow = responseTomorrow.results[0]?.value_inc_vat.toFixed(2);
     } catch (error) {
-        // Handle errors by setting data to "N/A"
         console.error(`Error fetching tariff data: ${error}`);
         dataToday = "N/A";
         dataTomorrow = "N/A";
@@ -46,21 +47,19 @@ async function fetchTariffData(tariffType) {
 async function displayTariffData(tariffType, symbolName) {
     const data = await fetchTariffData(tariffType); // Fetch the tariff data
     let row = widget.addStack(); // Create a new row in the widget
-    row.centerAlignContent(); // Center-align the content in the row
+    row.layoutHorizontally();
+    row.centerAlignContent();
+
+    row.addSpacer(); // Add a spacer to help center the row content
 
     const symbol = SFSymbol.named(symbolName); // Get the SF Symbol for the tariff type
     symbol.applyMediumWeight(); // Apply medium weight to the symbol for better visibility
     const img = row.addImage(symbol.image); // Add the symbol image to the row
-    
     // Set the symbol's color based on the tariff type
-    if (tariffType === "electricity") {
-        img.tintColor = new Color("#FFD700"); // Yellow for electricity
-    } else if (tariffType === "gas") {
-        img.tintColor = new Color("#FF4500"); // Fiery orange for gas
-    }
-    
+    img.tintColor = tariffType === "electricity" ? new Color("#FFD700") : new Color("#FF4500"); // Yellow for electricity, fiery orange for gas
     img.imageSize = new Size(30, 30); // Set the size of the symbol image
     img.resizable = true; // Allow the symbol image to be resizable
+    
     row.addSpacer(8); // Add space after the symbol
 
     // Display today's price in a large font
@@ -68,32 +67,27 @@ async function displayTariffData(tariffType, symbolName) {
     priceElement.font = Font.boldSystemFont(26);
     priceElement.textColor = Color.white();
 
+    row.addSpacer(); // Add a spacer to help center the row content
+
     widget.addSpacer(4); // Add space below today's price
 
     let subText, subElement;
-    // Check if tomorrow's price is available and not "N/A"
     if (data.tomorrow && data.tomorrow !== "N/A") {
         let change = data.today && data.today !== "N/A" ? ((parseFloat(data.tomorrow) - parseFloat(data.today)) / parseFloat(data.today)) * 100 : 0;
-        // Calculate absolute change and format to 2 decimal places for percentage
         let percentageChange = Math.abs(change).toFixed(2) + "%"; 
-        // Determine the arrow direction based on price change
-        let arrow = change > 0 ? "↑" : (change < 0 ? "↓" : ""); 
-        // Place the percentage change before the arrow in the display text
-        subText = `Tmrw: ${data.tomorrow}p (${percentageChange}${arrow})`; // Adjusted order here
+        let arrow = change > 0 ? "↑" : (change < 0 ? "↓" : "");
+        subText = `Tmrw: ${data.tomorrow}p (${percentageChange}${arrow})`;
         subElement = widget.addText(subText);
-        // Color the text based on price change direction
         subElement.textColor = change > 0 ? new Color("#FF3B30") : (change < 0 ? new Color("#30D158") : Color.white());
         subElement.font = Font.systemFont(11);
     } else {
-        // Display "Coming Soon" if tomorrow's price is not available
         subText = `Tmrw: Coming Soon`;
         subElement = widget.addText(subText);
         subElement.textColor = Color.white();
         subElement.font = Font.systemFont(11);
     }
 
-
-    widget.addSpacer(20); // Add final spacer for layout
+    widget.addSpacer(); // Add final spacer to center the content vertically
 }
 
 // Display tariff information for electricity and gas
