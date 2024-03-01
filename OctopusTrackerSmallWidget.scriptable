@@ -50,7 +50,7 @@ async function displayTariffData(tariffType, symbolName) {
     row.layoutHorizontally();
     row.centerAlignContent();
 
-    row.addSpacer(); // Add a spacer to help center the row content
+    //row.addSpacer(); // Add a spacer to help center the row content
 
     const symbol = SFSymbol.named(symbolName); // Get the SF Symbol for the tariff type
     symbol.applyMediumWeight(); // Apply medium weight to the symbol for better visibility
@@ -67,7 +67,7 @@ async function displayTariffData(tariffType, symbolName) {
     priceElement.font = Font.boldSystemFont(26);
     priceElement.textColor = Color.white();
 
-    row.addSpacer(); // Add a spacer to help center the row content
+    //row.addSpacer(); // Add a spacer to help center the row content
 
     widget.addSpacer(4); // Add space below today's price
 
