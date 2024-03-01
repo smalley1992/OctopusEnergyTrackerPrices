@@ -8,7 +8,7 @@ widget.addSpacer(); // Add spacer to center the content vertically
 const headerStack = widget.addStack(); // Create a stack for the header to center text
 headerStack.addSpacer(); // Spacer to center the header
 const header = headerStack.addText("Tracker Tariff"); // Add header text
-header.font = Font.boldSystemFont(15); // Set the font and size of the header
+header.font = Font.boldSystemFont(14); // Set the font and size of the header
 header.textColor = Color.white(); // Set the color of the header text
 headerStack.addSpacer(); // Spacer to center the header
 widget.addSpacer(10); // Add space below the header
