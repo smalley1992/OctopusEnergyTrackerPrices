@@ -72,14 +72,14 @@ async function displayTariffData(tariffType, symbolName) {
         // Determine the arrow direction based on price change
         let arrow = change > 0 ? "↑" : (change < 0 ? "↓" : ""); 
         // Place the percentage change before the arrow in the display text
-        subText = `Tomorrow: ${data.tomorrow}p (${percentageChange} ${arrow})`; // Adjusted order here
+        subText = `Tmrw: ${data.tomorrow}p (${percentageChange}${arrow})`; // Adjusted order here
         subElement = widget.addText(subText);
         // Color the text based on price change direction
         subElement.textColor = change > 0 ? new Color("#FF3B30") : (change < 0 ? new Color("#30D158") : Color.white());
-        subElement.font = Font.systemFont(12);
+        subElement.font = Font.systemFont(9);
     } else {
         // Display "Coming Soon" if tomorrow's price is not available
-        subText = `Tomorrow: Coming Soon`;
+        subText = `Tmrw: Coming Soon`;
         subElement = widget.addText(subText);
         subElement.textColor = Color.white();
         subElement.font = Font.systemFont(10);
@@ -98,7 +98,7 @@ widget.url = "https://octopustracker.small3y.co.uk";
 
 // Preview the widget in the app if not running in a widget context
 if (!config.runsInWidget) {
-    await widget.presentMedium();
+    await widget.presentSmall();
 }
 
 Script.setWidget(widget); // Set the widget for display
