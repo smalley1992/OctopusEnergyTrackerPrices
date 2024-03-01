@@ -1,0 +1,103 @@
+// Scriptable Widget for Displaying Energy and Gas Tariff Information
+//CS Feb 2024
+const widget = new ListWidget(); // Initialize a new list widget
+widget.backgroundColor = new Color("#100030"); // Set the background color of the widget
+
+widget.addSpacer(20); // Add space at the top
+const header = widget.addText("Tracker Tariff"); // Add header text
+header.font = Font.boldSystemFont(14); // Set the font and size of the header
+header.textColor = Color.white(); // Set the color of the header text
+widget.addSpacer(8); // Add space below the header
+
+// Function to fetch tariff data for electricity or gas
+async function fetchTariffData(tariffType) {
+    const today = new Date(); // Get today's date
+    const tomorrow = new Date(today.getTime() + 86400000); // Calculate tomorrow's date
+    const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`; // Base URL for the API
+    const productCode = "SILVER-23-12-06"; // Product code for the tariff
+    const regionCode = "F"; // Region code (CHANGE THIS as needed)
+    const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`; // Construct the tariff code
+    // Format today and tomorrow's dates as strings
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+    // Construct URLs for today and tomorrow's tariff data
+    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${todayStr}T00:00:00Z&period_to=${todayStr}T23:59:59Z`;
+    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${tomorrowStr}T00:00:00Z&period_to=${tomorrowStr}T23:59:59Z`;
+
+    let dataToday, dataTomorrow;
+    try {
+        // Fetch and process today's tariff data
+        let responseToday = await new Request(urlToday).loadJSON();
+        dataToday = responseToday.results[0]?.value_inc_vat.toFixed(2);
+        // Fetch and process tomorrow's tariff data
+        let responseTomorrow = await new Request(urlTomorrow).loadJSON();
+        dataTomorrow = responseTomorrow.results[0]?.value_inc_vat.toFixed(2);
+    } catch (error) {
+        // Handle errors by setting data to "N/A"
+        console.error(`Error fetching tariff data: ${error}`);
+        dataToday = "N/A";
+        dataTomorrow = "N/A";
+    }
+
+    return { today: dataToday, tomorrow: dataTomorrow }; // Return today and tomorrow's data
+}
+
+// Function to display the tariff data on the widget
+async function displayTariffData(tariffType, symbolName) {
+    const data = await fetchTariffData(tariffType); // Fetch the tariff data
+    let row = widget.addStack(); // Create a new row in the widget
+    row.centerAlignContent(); // Center-align the content in the row
+
+    const symbol = SFSymbol.named(symbolName); // Get the SF Symbol for the tariff type
+    symbol.applyMediumWeight(); // Apply medium weight to the symbol for better visibility
+    const img = row.addImage(symbol.image); // Add the symbol image to the row
+    img.tintColor = Color.white(); // Set the symbol's color to white
+    img.imageSize = new Size(30, 30); // Set the size of the symbol image
+    img.resizable = true; // Allow the symbol image to be resizable
+    row.addSpacer(8); // Add space after the symbol
+
+    // Display today's price in a large font
+    let priceElement = row.addText(`${data.today}p`);
+    priceElement.font = Font.boldSystemFont(26);
+    priceElement.textColor = Color.white();
+
+    widget.addSpacer(4); // Add space below today's price
+
+    let subText, subElement;
+    // Check if tomorrow's price is available and not "N/A"
+    if (data.tomorrow && data.tomorrow !== "N/A") {
+        let change = data.today && data.today !== "N/A" ? ((parseFloat(data.tomorrow) - parseFloat(data.today)) / parseFloat(data.today)) * 100 : 0;
+        // Determine the arrow direction based on price change
+        let arrow = change > 0 ? "↑" : (change < 0 ? "↓" : ""); // Add an arrow for increase or decrease
+        // Include the percentage change in the subText
+        let percentageChange = Math.abs(change).toFixed(2) + "%"; // Calculate absolute change and format to 2 decimal places
+        subText = `Tomorrow: ${data.tomorrow}p ${arrow} (${percentageChange})`; // Append percentage change to the display
+        subElement = widget.addText(subText);
+        // Color the text based on price change direction
+        subElement.textColor = change > 0 ? new Color("#FF3B30") : (change < 0 ? new Color("#30D158") : Color.white());
+        subElement.font = Font.systemFont(12);
+    } else {
+        // Display "Coming Soon" if tomorrow's price is not available
+        subText = `Tomorrow: Coming Soon`;
+        subElement = widget.addText(subText);
+        subElement.textColor = Color.white();
+        subElement.font = Font.systemFont(10);
+    }
+
+    widget.addSpacer(20); // Add final spacer for layout
+}
+
+// Display tariff information for electricity and gas
+await displayTariffData("electricity", "bolt.fill");
+await displayTariffData("gas", "flame.fill");
+
+// Optional: Set the widget's URL to open a specific app or webpage
+widget.url = "https://octopustracker.small3y.co.uk";
+
+// Preview the widget in the app if not running in a widget context
+if (!config.runsInWidget) {
+    await widget.presentMedium();
+}
+
+Script.setWidget(widget); // Set the widget for display
+Script.complete(); // Signal that the script has completed execution
