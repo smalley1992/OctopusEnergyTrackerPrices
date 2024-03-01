@@ -1,5 +1,5 @@
 // Scriptable Widget for Displaying Energy and Gas Tariff Information
-//CS Feb 2024
+//CS March 2024
 const widget = new ListWidget(); // Initialize a new list widget
 widget.backgroundColor = new Color("#100030"); // Set the background color of the widget
 
