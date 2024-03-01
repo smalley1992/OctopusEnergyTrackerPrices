@@ -76,13 +76,13 @@ async function displayTariffData(tariffType, symbolName) {
         subElement = widget.addText(subText);
         // Color the text based on price change direction
         subElement.textColor = change > 0 ? new Color("#FF3B30") : (change < 0 ? new Color("#30D158") : Color.white());
-        subElement.font = Font.systemFont(9);
+        subElement.font = Font.systemFont(11);
     } else {
         // Display "Coming Soon" if tomorrow's price is not available
         subText = `Tmrw: Coming Soon`;
         subElement = widget.addText(subText);
         subElement.textColor = Color.white();
-        subElement.font = Font.systemFont(10);
+        subElement.font = Font.systemFont(11);
     }
 
 
