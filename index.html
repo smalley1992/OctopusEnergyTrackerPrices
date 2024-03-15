@@ -135,6 +135,27 @@
 			font-size: 1.5rem;
 			cursor: pointer;
 		}
+		/* Colorblind-friendly scheme */
+		.colorblind {
+			background-color: #757575; /* Adjusted background for colorblind mode */
+			color: #FFFFFF; /* Adjusted text color for better contrast */
+		}
+
+		.colorblind .tile {
+			background-color: #9E9E9E; /* Lighter gray for tile background */
+		}
+
+		.colorblind .price, .colorblind .tomorrow-price {
+			color: #FFFFFF; /* Ensuring text is readable */
+		}
+
+		.colorblind .highlight-red {
+			color: #FFC107; /* Using yellow to indicate increase, better for colorblind users */
+		}
+
+		.colorblind .highlight-green {
+			color: #29B6F6; /* Using blue to indicate decrease, better for colorblind users */
+		}
 		@media (max-width: 768px) {
 			.close-btn {
 				font-size: 1rem; /* Smaller font size for the close button on small screens */
@@ -160,14 +181,24 @@
 				font-size: 0.7rem; /* Even smaller font size for very small screens */
 			}
 		}
+		#prevDay {
+			cursor: pointer;
+			margin-right: 20px; /* Adjust space to the right of the left arrow */
+		}
+
+		#nextDay {
+			cursor: pointer;
+			margin-left: 20px; /* Adjust space to the left of the right arrow */
+		}
     </style>
 </head>
 <body class="container-fluid py-5">
 	 <!-- Logo and Title -->
-    <div class="header text-center">
+	 <div class="header text-center">
 		<h1 id="dashboardTitle">Octopus Energy Tracker Prices</h1>
-		<!-- New placeholders for date and region -->
-		<h2 id="currentDate" style="font-size: 1.25rem;"></h2>
+		<i class="fas fa-arrow-left" id="prevDay"></i>
+		<h2 id="currentDate" style="font-size: 1.25rem; display: inline-block;"></h2>
+		<i class="fas fa-arrow-right" id="nextDay"></i>
 		<h2 id="currentRegion" style="font-size: 1.25rem;"></h2>
 	</div>
 
@@ -199,6 +230,9 @@
 				<option value="N">Southern Scotland</option>
 				<option value="P">Northern Scotland</option>
 			</select>
+		</div>
+		<div class="mb-3">
+			<button id="colorSchemeToggle" class="btn btn-secondary">Switch to Colorblind Mode</button>
 		</div>
     </div>
     <div class="d-flex flex-row justify-content-center flex-wrap">
@@ -261,16 +295,55 @@
 		document.querySelector('.settings-panel').addEventListener('keypress', resetAutoCloseTimer);
 		
 		document.addEventListener('DOMContentLoaded', function() {
-		  const params = new URLSearchParams(window.location.search);
-		  const region = params.get('region'); // Assuming 'region' is the query parameter
-		  if (region) {
+		const params = new URLSearchParams(window.location.search);
+		const regionFromURL = params.get('region'); // Get 'region' parameter from URL
+
+		if (regionFromURL) {
 			const regionPicker = document.getElementById('regionPicker');
-			if (regionPicker) {
-			  regionPicker.value = region;
+			const normalizedRegionFromURL = regionFromURL.toUpperCase(); // Convert URL parameter to uppercase
+
+			// Iterate over dropdown options to find a case-insensitive match
+			for (const option of regionPicker.options) {
+			if (option.value === normalizedRegionFromURL) {
+				option.selected = true;
+				break; // Stop the loop once the matching option is found
 			}
-		  }
+			}
+			
+			// Since the region might have changed, trigger any necessary updates
+			updateData(); // Assuming this function fetches and updates data based on the current region
+			updateCurrentRegion(); // Update displayed region information
+		}
 		});
 		
+		document.addEventListener('DOMContentLoaded', function() {
+			const prevDayButton = document.getElementById('prevDay');
+			const nextDayButton = document.getElementById('nextDay');
+			const datePicker = document.getElementById('datePicker');
+
+			const adjustDate = (days) => {
+				let currentDate = new Date(datePicker.value);
+				currentDate.setDate(currentDate.getDate() + days);
+
+				const today = new Date();
+				const tomorrow = new Date(today);
+				tomorrow.setDate(tomorrow.getDate() + 1); // Set tomorrow's date
+
+				// Ensure the new date is not beyond tomorrow
+				if (currentDate <= tomorrow) {
+					datePicker.value = currentDate.toISOString().split('T')[0];
+					
+					updateData(datePicker.value); // Update the dashboard with the new date
+					updateTitleDate(datePicker.value); // Optionally, update the date in the title if you have this function
+				} else {
+					console.log("Cannot select a date beyond tomorrow."); // Optional: Handle attempts to exceed the date limit
+				}
+			};
+			
+			// Event listeners for the arrows
+			prevDayButton.addEventListener('click', () => adjustDate(-1));
+			nextDayButton.addEventListener('click', () => adjustDate(1));
+		});
 		
 
 				
@@ -427,6 +500,23 @@
 			updateCurrentRegion(); // Set the current region at load
         }, 3600000); // 3600000 milliseconds = 1 hour
     };
+	document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('colorSchemeToggle');
+    
+    toggleButton.addEventListener('click', function() {
+        document.body.classList.toggle('colorblind');
+        
+        const isColorblindMode = document.body.classList.contains('colorblind');
+        localStorage.setItem('colorScheme', isColorblindMode ? 'colorblind' : 'default');
+        toggleButton.textContent = isColorblindMode ? "Switch to Default Mode" : "Switch to Colorblind Mode";
+    });
+
+    // Apply saved theme
+    if (localStorage.getItem('colorScheme') === 'colorblind') {
+        document.body.classList.add('colorblind');
+        toggleButton.textContent = "Switch to Default Mode";
+    }
+	});
     </script>
 	<div class="referral-link text-center py-4">
 		<button class="close-btn">&times;</button>
