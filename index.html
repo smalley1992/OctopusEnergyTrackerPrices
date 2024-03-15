@@ -282,8 +282,14 @@
 		});
 
 		document.getElementById('regionPicker').addEventListener('change', function() {
-			updateData(datePicker.value); // Trigger data update when region changes
-			updateCurrentRegion(); // Update the current region display
+			updateCurrentRegion(); // Update displayed region information
+
+			const selectedRegion = this.value;
+			const newUrl = `${window.location.pathname}?region=${selectedRegion}`;
+			
+			history.pushState({path:newUrl}, '', newUrl);
+			updateData(); // Assuming this function fetches and updates data based on the selected region
+
 		});
 				
 		document.getElementById('datePicker').addEventListener('change', resetAutoCloseTimer);
