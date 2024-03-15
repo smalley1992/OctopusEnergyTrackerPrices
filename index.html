@@ -321,14 +321,17 @@
 		}
 
 
-        function displayPriceAndDate(result, elementId, tariffType, period) {
+		function displayPriceAndDate(result, elementId, tariffType, period) {
 			const container = document.getElementById(elementId);
 			if (period === 'Today') {
 				const priceHTML = `<div class='price'>${result.value_inc_vat.toFixed(2)}p</div>`;
-				container.innerHTML = `<i class="fas ${tariffType === 'gas' ? 'fa-burn' : 'fa-bolt'} icon"></i>
-									   <div class='title h5'>${tariffType.toUpperCase()} Tariff</div>
-									   ${priceHTML}
-									   <div class='tomorrow-price' id='tomorrow-${tariffType}'>Loading...</div>`;
+				// Check the tariff type and apply appropriate color
+				let iconColor = tariffType === 'gas' ? 'style="color:orange;"' : 'style="color:YELLOW;"';
+				let iconClass = tariffType === 'gas' ? 'fa-burn' : 'fa-bolt';
+				container.innerHTML = `<i class="fas ${iconClass} icon" ${iconColor}></i>
+									<div class='title h5'>${tariffType.toUpperCase()} Tariff</div>
+									${priceHTML}
+									<div class='tomorrow-price' id='tomorrow-${tariffType}'>Loading...</div>`;
 			} else if (period === 'Tomorrow') {
 				if (!result || result.value_inc_vat === undefined) {
 					document.getElementById(`tomorrow-${tariffType}`).innerHTML = "Tomorrow: Available Soon";
@@ -340,21 +343,29 @@
 				const todayPriceElement = todayElement.querySelector('.price');
 				const todayPrice = todayPriceElement ? parseFloat(todayPriceElement.textContent.replace('p', '')) : 0;
 
-				let priceClass = '', iconHtml = 'Tomorrow:&nbsp;';
+				let priceClass = '', iconHtml = 'Tomorrow:&nbsp;', percentageChange = 0;
 				if (tomorrowPrice > todayPrice) {
 					priceClass = 'highlight-red';
+					percentageChange = ((tomorrowPrice - todayPrice) / todayPrice) * 100;
 					iconHtml += `<i class="fas fa-arrow-up" style="color:red;"></i>&nbsp;`;
 				} else if (tomorrowPrice < todayPrice) {
 					priceClass = 'highlight-green';
+					percentageChange = ((todayPrice - tomorrowPrice) / todayPrice) * 100;
 					iconHtml += `<i class="fas fa-arrow-down" style="color:green;"></i>&nbsp;`;
 				} else {
-					// For equality, we simply continue to display "Tomorrow: " without any icon
+					// For equality, no change in price or percentage
 				}
 
+				// Removing explicit color style to use the class-based coloring
+				let percentageChangeHtml = percentageChange > 0 ? ` <span class="${priceClass}" style="font-size:0.8rem;">(${percentageChange.toFixed(2)}%)</span>` : '';
+
 				const tomorrowElement = document.getElementById(`tomorrow-${tariffType}`);
-				tomorrowElement.innerHTML = `${iconHtml}<span class="${priceClass}">${tomorrowPrice}p</span>`;
+				tomorrowElement.innerHTML = `${iconHtml}<span class="${priceClass}">${tomorrowPrice}p</span>&nbsp;${percentageChangeHtml}`;
 			}
 		}
+
+
+
 
 
 		
