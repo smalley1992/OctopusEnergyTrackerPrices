@@ -1,0 +1,88 @@
+// Scriptable Widget for Displaying Energy and Gas Tariff Information
+const widget = new ListWidget();
+widget.backgroundColor = new Color("#100030");
+
+const header = widget.addText("Energy");
+header.font = Font.boldSystemFont(10);
+header.textColor = Color.white();
+widget.addSpacer(4);
+
+// Function to check if current date is within BST period
+function isBST(date) {
+    const marchLastSunday = new Date(date.getFullYear(), 2, 31);
+    marchLastSunday.setDate(31 - (marchLastSunday.getDay() + 1) % 7);
+    const octoberLastSunday = new Date(date.getFullYear(), 9, 31);
+    octoberLastSunday.setDate(31 - (octoberLastSunday.getDay() + 1) % 7);
+
+    return date >= marchLastSunday && date < octoberLastSunday;
+}
+
+async function fetchTariffData(tariffType) {
+    const today = new Date();
+    const tomorrow = new Date(today.getTime() + 86400000); // Adding one day in milliseconds
+    const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`;
+    const productCode = "SILVER-23-12-06";
+    const regionCode = "F"; //CHANGE THIS
+    const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`;
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+    
+    // During BST, adjust the period_to to 22:59:59 to account for UTC+1
+    let periodToHour = isBST(today) ? "22:59:59" : "23:59:59";
+    
+    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${todayStr}T00:00:00Z&period_to=${todayStr}T${periodToHour}Z`;
+    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${tomorrowStr}T00:00:00Z&period_to=${tomorrowStr}T${periodToHour}Z`;
+
+    let dataToday, dataTomorrow;
+    try {
+        let responseToday = await new Request(urlToday).loadJSON();
+        dataToday = responseToday.results[0]?.value_inc_vat.toFixed(2);
+        let responseTomorrow = await new Request(urlTomorrow).loadJSON();
+        dataTomorrow = responseTomorrow.results[0]?.value_inc_vat.toFixed(2);
+    } catch (error) {
+        console.error(`Error fetching tariff data: ${error}`);
+        dataToday = "N/A";
+        dataTomorrow = "N/A";
+    }
+
+    return { today: dataToday, tomorrow: dataTomorrow };
+}
+
+async function displayTariffData(tariffType, symbolName) {
+    const data = await fetchTariffData(tariffType);
+    let row = widget.addStack();
+    row.centerAlignContent();
+
+    const symbol = SFSymbol.named(symbolName);
+    symbol.applyMediumWeight();
+    const img = row.addImage(symbol.image);
+    img.tintColor = Color.white();
+    img.imageSize = new Size(12, 12);
+    img.resizable = true;
+    row.addSpacer(1);
+
+    // Today's Price in Large Font
+    let priceElement = row.addText(`${data.today}p`);
+    priceElement.font = Font.boldSystemFont(12);
+    priceElement.textColor = Color.white();
+
+    widget.addSpacer(4);
+
+    // Continue with displaying the rest of your data...
+
+    widget.addSpacer(1);
+}
+
+await displayTariffData("electricity", "bolt.fill");
+await displayTariffData("gas", "flame.fill");
+
+// Optional: Set the widget's URL to open a specific app or webpage
+widget.url = "https://octopustracker.small3y.co.uk";
+
+if (!config.runsInWidget) {
+    // Preview the widget in the app
+    await widget.presentSmall();
+}
+
+Script.setWidget(widget);
+Script.complete();
