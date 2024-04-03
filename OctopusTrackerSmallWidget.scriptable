@@ -9,49 +9,42 @@ header.font = Font.boldSystemFont(14); // Set the font and size of the header
 header.textColor = Color.white(); // Set the color of the header text
 widget.addSpacer(8); // Add space below the header
 
-// Function to check if current date is within UK DST period
-function isUKDst(date) {
+//Check for BST
+function isBST(date) {
     const marchLastSunday = new Date(date.getFullYear(), 2, 31);
     marchLastSunday.setDate(31 - (marchLastSunday.getDay() + 1) % 7);
     const octoberLastSunday = new Date(date.getFullYear(), 9, 31);
     octoberLastSunday.setDate(31 - (octoberLastSunday.getDay() + 1) % 7);
 
-    return date >= marchLastSunday && date < octoberLastSunday;
+    return date > marchLastSunday && date < octoberLastSunday;
 }
 
-// Function to fetch tariff data for electricity or gas
+// Adjusted function to fetch tariff data for electricity or gas with BST consideration
 async function fetchTariffData(tariffType) {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1); // Calculate tomorrow's date by adding one day
 
-    // Adjust for UK DST if necessary
-    if (isUKDst(today)) {
-        today.setHours(today.getHours() + 1);
-        tomorrow.setHours(tomorrow.getHours() + 1);
-    }
-
-    const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`; // Base URL for the API
-    const productCode = "SILVER-23-12-06"; // Product code for the tariff
-    const regionCode = "F"; // Region code
-    const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`; // Construct the tariff code
+    const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`;
+    const productCode = "SILVER-23-12-06";
+    const regionCode = "F";
+    const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`;
 
     // Helper function to format dates as YYYY-MM-DD
     function formatDate(date) {
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     }
 
-    // Construct URLs for today and tomorrow's tariff data
-    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T23:59:59Z`;
-    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T23:59:59Z`;
+    // During BST, adjust the period_to to 22:59:59 to account for UTC+1
+    let periodToHour = isBST(today) ? "22:59:59" : "23:59:59";
+
+    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T${periodToHour}Z`;
+    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T${periodToHour}Z`;
 
     let dataToday, dataTomorrow;
     try {
-        // Fetch today's tariff data
         let responseToday = await new Request(urlToday).loadJSON();
         dataToday = responseToday.results[0] ? responseToday.results[0].value_inc_vat.toFixed(2) : "N/A";
-
-        // Fetch tomorrow's tariff data
         let responseTomorrow = await new Request(urlTomorrow).loadJSON();
         dataTomorrow = responseTomorrow.results[0] ? responseTomorrow.results[0].value_inc_vat.toFixed(2) : "N/A";
     } catch (error) {
