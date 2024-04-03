@@ -9,11 +9,22 @@ header.font = Font.boldSystemFont(14); // Header font and size
 header.textColor = Color.white(); // Header text color
 widget.addSpacer(8); // Spacer below header
 
+function isDstObserved(date) {
+    const mar = new Date(date.getFullYear(), 2, 1).getTimezoneOffset();
+    const oct = new Date(date.getFullYear(), 9, 1).getTimezoneOffset();
+    return date.getTimezoneOffset() < Math.max(mar, oct);
+}
 // Async function to fetch tariff data
 async function fetchTariffData(tariffType) {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
+
+    if (isDstObserved(today)) {
+    // Assuming DST adjustment is +1 hour. Adjust as necessary.
+    today.setHours(today.getHours() + 1);
+    tomorrow.setHours(tomorrow.getHours() + 1);
+}
 
     const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`;
     const productCode = "SILVER-23-12-06";
@@ -24,8 +35,8 @@ async function fetchTariffData(tariffType) {
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     }
 
-    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T22:59:59Z`;
-    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T22:59:59Z`;
+    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T23:59:59Z`;
+    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T23:59:59Z`;
 
     try {
         const [responseToday, responseTomorrow] = await Promise.all([
