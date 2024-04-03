@@ -43,6 +43,7 @@ async function fetchTariffData(tariffType) {
     const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T${periodToHour}Z`;
     const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T${periodToHour}Z`;
 
+
     let dataToday, dataTomorrow;
     try {
         let responseToday = await new Request(urlToday).loadJSON();

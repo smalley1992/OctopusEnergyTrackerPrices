@@ -355,19 +355,31 @@
 				
 		
 
+        function isDstObserved(date) {
+            const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
+            const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+            return Math.max(jan, jul) !== date.getTimezoneOffset();
+        }
+
         async function updateData(selectedDate) {
-			const date = selectedDate ? new Date(selectedDate) : new Date();
-			const tomorrow = new Date(date);
-			tomorrow.setDate(date.getDate() + 1);
+            const date = selectedDate ? new Date(selectedDate) : new Date();
+            
+            // Check if DST is observed on the selected date and adjust accordingly
+            const dstObserved = isDstObserved(date);
+            const adjustmentHour = dstObserved ? 1 : 0;
+            
+            date.setHours(date.getHours() + adjustmentHour); // Adjust the date if DST is observed
+            const tomorrow = new Date(date);
+            tomorrow.setDate(date.getDate() + 1);
 
-			const todayDate = date.toISOString().split('T')[0];
-			const tomorrowDate = tomorrow.toISOString().split('T')[0];
+            const todayDate = date.toISOString().split('T')[0];
+            const tomorrowDate = tomorrow.toISOString().split('T')[0];
 
-			await fetchTariffData('gas', todayDate, 'Today');
-			await fetchTariffData('electricity', todayDate, 'Today');
-			await fetchTariffData('gas', tomorrowDate, 'Tomorrow');
-			await fetchTariffData('electricity', tomorrowDate, 'Tomorrow');
-		}
+            await fetchTariffData('gas', todayDate, 'Today');
+            await fetchTariffData('electricity', todayDate, 'Today');
+            await fetchTariffData('gas', tomorrowDate, 'Tomorrow');
+            await fetchTariffData('electricity', tomorrowDate, 'Tomorrow');
+        }
 		
 		function updateTitleDate(selectedDate) {
 			const date = selectedDate ? new Date(selectedDate) : new Date();
