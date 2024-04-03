@@ -9,21 +9,19 @@ header.font = Font.boldSystemFont(14); // Set the font and size of the header
 header.textColor = Color.white(); // Set the color of the header text
 widget.addSpacer(8); // Add space below the header
 
-// Improved Function to fetch tariff data for electricity or gas
+// Function to fetch tariff data for electricity or gas
 async function fetchTariffData(tariffType) {
-    const today = new Date(); // Get today's date
-    // Ensure we are using the correct time zone for the API's location
-    today.setHours(today.getHours() + timeZoneOffset);
-
+    // Use the local time to calculate today and tomorrow's dates
+    const today = new Date();
     const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1); // Calculate tomorrow's date
+    tomorrow.setDate(today.getDate() + 1); // Calculate tomorrow's date by adding one day
 
     const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`; // Base URL for the API
     const productCode = "SILVER-23-12-06"; // Product code for the tariff
-    const regionCode = "F"; // Region code (CHANGE THIS as needed)
+    const regionCode = "F"; // Region code
     const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`; // Construct the tariff code
 
-    // Helper function to format dates
+    // Helper function to format dates as YYYY-MM-DD
     function formatDate(date) {
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     }
@@ -34,21 +32,22 @@ async function fetchTariffData(tariffType) {
 
     let dataToday, dataTomorrow;
     try {
-        // Fetch and process today's tariff data
+        // Fetch today's tariff data
         let responseToday = await new Request(urlToday).loadJSON();
-        dataToday = responseToday.results[0]?.value_inc_vat.toFixed(2) || "N/A";
-        // Fetch and process tomorrow's tariff data
+        dataToday = responseToday.results[0] ? responseToday.results[0].value_inc_vat.toFixed(2) : "N/A";
+
+        // Fetch tomorrow's tariff data
         let responseTomorrow = await new Request(urlTomorrow).loadJSON();
-        dataTomorrow = responseTomorrow.results[0]?.value_inc_vat.toFixed(2) || "N/A";
+        dataTomorrow = responseTomorrow.results[0] ? responseTomorrow.results[0].value_inc_vat.toFixed(2) : "N/A";
     } catch (error) {
-        // Handle errors more gracefully
         console.error(`Error fetching tariff data: ${error}`);
-        dataToday = "Error";
-        dataTomorrow = "Error";
+        dataToday = "N/A";
+        dataTomorrow = "N/A";
     }
 
-    return { today: dataToday, tomorrow: dataTomorrow }; // Return today and tomorrow's data
+    return { today: dataToday, tomorrow: dataTomorrow };
 }
+
 
 
 // Function to display the tariff data on the widget
