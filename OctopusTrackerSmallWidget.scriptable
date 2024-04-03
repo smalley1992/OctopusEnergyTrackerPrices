@@ -27,8 +27,8 @@ async function fetchTariffData(tariffType) {
     }
 
     // Construct URLs for today and tomorrow's tariff data
-    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T23:59:59Z`;
-    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T23:59:59Z`;
+    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T22:59:59Z`;
+    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T22:59:59Z`;
 
     let dataToday, dataTomorrow;
     try {
