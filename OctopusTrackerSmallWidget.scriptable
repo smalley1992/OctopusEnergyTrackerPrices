@@ -9,38 +9,47 @@ header.font = Font.boldSystemFont(14); // Set the font and size of the header
 header.textColor = Color.white(); // Set the color of the header text
 widget.addSpacer(8); // Add space below the header
 
-// Function to fetch tariff data for electricity or gas
+// Improved Function to fetch tariff data for electricity or gas
 async function fetchTariffData(tariffType) {
     const today = new Date(); // Get today's date
-    const tomorrow = new Date(today.getTime() + 86400000); // Calculate tomorrow's date
+    // Ensure we are using the correct time zone for the API's location
+    today.setHours(today.getHours() + timeZoneOffset);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1); // Calculate tomorrow's date
+
     const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`; // Base URL for the API
     const productCode = "SILVER-23-12-06"; // Product code for the tariff
     const regionCode = "F"; // Region code (CHANGE THIS as needed)
     const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`; // Construct the tariff code
-    // Format today and tomorrow's dates as strings
-    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+
+    // Helper function to format dates
+    function formatDate(date) {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    }
+
     // Construct URLs for today and tomorrow's tariff data
-    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${todayStr}T00:00:00Z&period_to=${todayStr}T23:59:59Z`;
-    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${tomorrowStr}T00:00:00Z&period_to=${tomorrowStr}T23:59:59Z`;
+    const urlToday = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(today)}T00:00:00Z&period_to=${formatDate(today)}T23:59:59Z`;
+    const urlTomorrow = `${baseUrl}${tariffType}-tariffs/${tariffCode}/standard-unit-rates/?period_from=${formatDate(tomorrow)}T00:00:00Z&period_to=${formatDate(tomorrow)}T23:59:59Z`;
 
     let dataToday, dataTomorrow;
     try {
         // Fetch and process today's tariff data
         let responseToday = await new Request(urlToday).loadJSON();
-        dataToday = responseToday.results[0]?.value_inc_vat.toFixed(2);
+        dataToday = responseToday.results[0]?.value_inc_vat.toFixed(2) || "N/A";
         // Fetch and process tomorrow's tariff data
         let responseTomorrow = await new Request(urlTomorrow).loadJSON();
-        dataTomorrow = responseTomorrow.results[0]?.value_inc_vat.toFixed(2);
+        dataTomorrow = responseTomorrow.results[0]?.value_inc_vat.toFixed(2) || "N/A";
     } catch (error) {
-        // Handle errors by setting data to "N/A"
+        // Handle errors more gracefully
         console.error(`Error fetching tariff data: ${error}`);
-        dataToday = "N/A";
-        dataTomorrow = "N/A";
+        dataToday = "Error";
+        dataTomorrow = "Error";
     }
 
     return { today: dataToday, tomorrow: dataTomorrow }; // Return today and tomorrow's data
 }
+
 
 // Function to display the tariff data on the widget
 async function displayTariffData(tariffType, symbolName) {
