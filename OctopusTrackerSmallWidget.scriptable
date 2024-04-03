@@ -1,5 +1,7 @@
 // Scriptable Widget for Displaying Energy and Gas Tariff Information
 // Adjusted for UK Daylight Saving Time
+// Updated April 2024 - CS
+
 const widget = new ListWidget(); // Initialize a new list widget
 widget.backgroundColor = new Color("#100030"); // Set the background color of the widget
 
@@ -27,7 +29,7 @@ async function fetchTariffData(tariffType) {
 
     const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/`;
     const productCode = "SILVER-23-12-06";
-    const regionCode = "F";
+    const regionCode = "F"; //Change this to your region code: https://www.guylipman.com/octopus/formulas.html
     const tariffCode = `${tariffType[0].toUpperCase()}-1R-${productCode}-${regionCode}`;
 
     // Helper function to format dates as YYYY-MM-DD
