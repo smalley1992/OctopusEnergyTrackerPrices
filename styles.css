@@ -1,0 +1,183 @@
+body {
+    background-color: #100030;
+    color: #E6E6FA;
+}
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+.tile {
+    background-color: #483D8B;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    color: #F8F8FF;
+    margin: 20px;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    flex: 1 1 300px;
+    max-width: 600px;
+    min-width: 400px;
+    max-height: fit;
+}
+.price {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #F8F8FF;
+    text-shadow: 2px 2px 4px #000000;
+}
+.tomorrow-price {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.highlight-red {
+    color: red;
+}
+.settings-panel {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #483D8B;
+    padding: 10px;
+    border-radius: 10px;
+    width: 250px;
+}
+.btn-close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border: none;
+    background: transparent;
+    color: #100030;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.settings-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #E6E6FA;
+}
+.icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+.highlight-green {
+    color: green;
+}
+.header {
+    margin-bottom: 1rem; /* Adjusted margin */
+}
+
+.header h1, .header h2 {
+    margin-bottom: 0.5rem; /* Reduce the space between title elements */
+}
+.referral-link {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #483D8B;
+    color: #F8F8FF;
+    border-top: 2px solid #E6E6FA;
+    z-index: 1000; /* Ensure it's above other content */
+    padding: 5px 0; /* Reduced padding */
+    text-align: center; /* Center align the content */
+}
+
+.referral-link a {
+    color: #FFF;
+    background-color: #FFA500;
+    border-color: #FFA500;
+    font-weight: bold;
+    padding: 5px 15px; /* Adjusted padding for smaller size */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-decoration: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    font-size: 0.8rem; /* Smaller font size for smaller screens */
+}
+
+.referral-link a:hover, .referral-link a:focus {
+    background-color: #FF8C00; /* Slightly darker shade on hover/focus */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Enhanced shadow for pop effect */
+    text-decoration: none; /* Ensures no underline appears on hover */
+}
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    color: #FFF;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+/* Colorblind-friendly scheme */
+.colorblind {
+    background-color: #757575; /* Adjusted background for colorblind mode */
+    color: #FFFFFF; /* Adjusted text color for better contrast */
+}
+
+.colorblind .tile {
+    background-color: #9E9E9E; /* Lighter gray for tile background */
+}
+
+.colorblind .price, .colorblind .tomorrow-price {
+    color: #FFFFFF; /* Ensuring text is readable */
+}
+
+.colorblind .highlight-red {
+    color: #FFC107; /* Using yellow to indicate increase, better for colorblind users */
+}
+
+.colorblind .highlight-green {
+    color: #29B6F6; /* Using blue to indicate decrease, better for colorblind users */
+}
+@media (max-width: 768px) {
+    .close-btn {
+        font-size: 1rem; /* Smaller font size for the close button on small screens */
+    }
+}
+@media (min-width: 768px) {
+    .container-fluid {
+        justify-content: center;
+        align-items: center;
+    }
+}
+@media (max-width: 768px) {
+    .referral-link {
+        position: relative; /* Change to relative for small screens */
+        width: 100%; /* Ensure it spans the full width */
+        bottom: auto; /* Remove fixed positioning at the bottom */
+        border-top: none; /* Remove border top */
+    }
+
+    .referral-link a {
+        display: inline-block; /* Adjust display for smaller button */
+        width: auto; /* Auto width based on content */
+        font-size: 0.7rem; /* Even smaller font size for very small screens */
+    }
+}
+#prevDay {
+    cursor: pointer;
+    margin-right: 20px; /* Adjust space to the right of the left arrow */
+}
+
+#nextDay {
+    cursor: pointer;
+    margin-left: 20px; /* Adjust space to the left of the right arrow */
+}
