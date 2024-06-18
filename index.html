@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Energy Tariff Dashboard</title>
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
@@ -62,16 +62,16 @@
             border-radius: 10px;
             width: 250px;
         }
-		.btn-close {
-			position: absolute;
-			top: 0px;
-			right: 0px;
-			border: none;
-			background: transparent;
-			color: #100030;
-			font-size: 1.5rem;
-			cursor: pointer;
-		}
+        .btn-close {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            border: none;
+            background: transparent;
+            color: #100030;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
         .settings-icon {
             position: fixed;
             top: 20px;
@@ -84,156 +84,163 @@
             font-size: 2rem;
             margin-bottom: 15px;
         }
-		.highlight-green {
-			color: green;
-		}
-		.header {
-			margin-bottom: 1rem; /* Adjusted margin */
-		}
+        .highlight-green {
+            color: green;
+        }
+        .header {
+            margin-bottom: 1rem; /* Adjusted margin */
+        }
 
-		.header h1, .header h2 {
-			margin-bottom: 0.5rem; /* Reduce the space between title elements */
-		}
-		.referral-link {
-			position: fixed;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background-color: #483D8B;
-			color: #F8F8FF;
-			border-top: 2px solid #E6E6FA;
-			z-index: 1000; /* Ensure it's above other content */
-			padding: 5px 0; /* Reduced padding */
-			text-align: center; /* Center align the content */
-		}
+        .header h1, .header h2 {
+            margin-bottom: 0.5rem; /* Reduce the space between title elements */
+        }
+        .referral-link {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #483D8B;
+            color: #F8F8FF;
+            border-top: 2px solid #E6E6FA;
+            z-index: 1000; /* Ensure it's above other content */
+            padding: 5px 0; /* Reduced padding */
+            text-align: center; /* Center align the content */
+        }
 
-		.referral-link a {
-			color: #FFF;
-			background-color: #FFA500;
-			border-color: #FFA500;
-			font-weight: bold;
-			padding: 5px 15px; /* Adjusted padding for smaller size */
-			border-radius: 5px;
-			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-			text-decoration: none;
-			transition: background-color 0.3s, box-shadow 0.3s;
-			font-size: 0.8rem; /* Smaller font size for smaller screens */
-		}
+        .referral-link a {
+            color: #FFF;
+            background-color: #FFA500;
+            border-color: #FFA500;
+            font-weight: bold;
+            padding: 5px 15px; /* Adjusted padding for smaller size */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-decoration: none;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            font-size: 0.8rem; /* Smaller font size for smaller screens */
+        }
 
-		.referral-link a:hover, .referral-link a:focus {
-			background-color: #FF8C00; /* Slightly darker shade on hover/focus */
-			box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Enhanced shadow for pop effect */
-			text-decoration: none; /* Ensures no underline appears on hover */
-		}
-		.close-btn {
-			position: absolute;
-			top: 5px;
-			right: 10px;
-			border: none;
-			background: transparent;
-			color: #FFF;
-			font-size: 1.5rem;
-			cursor: pointer;
-		}
-		/* Colorblind-friendly scheme */
-		.colorblind {
-			background-color: #757575; /* Adjusted background for colorblind mode */
-			color: #FFFFFF; /* Adjusted text color for better contrast */
-		}
+        .referral-link a:hover, .referral-link a:focus {
+            background-color: #FF8C00; /* Slightly darker shade on hover/focus */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Enhanced shadow for pop effect */
+            text-decoration: none; /* Ensures no underline appears on hover */
+        }
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            border: none;
+            background: transparent;
+            color: #FFF;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        /* Colorblind-friendly scheme */
+        .colorblind {
+            background-color: #757575; /* Adjusted background for colorblind mode */
+            color: #FFFFFF; /* Adjusted text color for better contrast */
+        }
 
-		.colorblind .tile {
-			background-color: #9E9E9E; /* Lighter gray for tile background */
-		}
+        .colorblind .tile {
+            background-color: #9E9E9E; /* Lighter gray for tile background */
+        }
 
-		.colorblind .price, .colorblind .tomorrow-price {
-			color: #FFFFFF; /* Ensuring text is readable */
-		}
+        .colorblind .price, .colorblind .tomorrow-price {
+            color: #FFFFFF; /* Ensuring text is readable */
+        }
 
-		.colorblind .highlight-red {
-			color: #FFC107; /* Using yellow to indicate increase, better for colorblind users */
-		}
+        .colorblind .highlight-red {
+            color: #FFC107; /* Using yellow to indicate increase, better for colorblind users */
+        }
 
-		.colorblind .highlight-green {
-			color: #29B6F6; /* Using blue to indicate decrease, better for colorblind users */
-		}
-		@media (max-width: 768px) {
-			.close-btn {
-				font-size: 1rem; /* Smaller font size for the close button on small screens */
-			}
-		}
+        .colorblind .highlight-green {
+            color: #29B6F6; /* Using blue to indicate decrease, better for colorblind users */
+        }
+        @media (max-width: 768px) {
+            .close-btn {
+                font-size: 1rem; /* Smaller font size for the close button on small screens */
+            }
+        }
         @media (min-width: 768px) {
             .container-fluid {
                 justify-content: center;
                 align-items: center;
             }
         }
-		@media (max-width: 768px) {
-			.referral-link {
-				position: relative; /* Change to relative for small screens */
-				width: 100%; /* Ensure it spans the full width */
-				bottom: auto; /* Remove fixed positioning at the bottom */
-				border-top: none; /* Remove border top */
-			}
+        @media (max-width: 768px) {
+            .referral-link {
+                position: relative; /* Change to relative for small screens */
+                width: 100%; /* Ensure it spans the full width */
+                bottom: auto; /* Remove fixed positioning at the bottom */
+                border-top: none; /* Remove border top */
+            }
 
-			.referral-link a {
-				display: inline-block; /* Adjust display for smaller button */
-				width: auto; /* Auto width based on content */
-				font-size: 0.7rem; /* Even smaller font size for very small screens */
-			}
-		}
-		#prevDay {
-			cursor: pointer;
-			margin-right: 20px; /* Adjust space to the right of the left arrow */
-		}
+            .referral-link a {
+                display: inline-block; /* Adjust display for smaller button */
+                width: auto; /* Auto width based on content */
+                font-size: 0.7rem; /* Even smaller font size for very small screens */
+            }
+        }
+        #prevDay {
+            cursor: pointer;
+            margin-right: 20px; /* Adjust space to the right of the left arrow */
+        }
 
-		#nextDay {
-			cursor: pointer;
-			margin-left: 20px; /* Adjust space to the left of the right arrow */
-		}
+        #nextDay {
+            cursor: pointer;
+            margin-left: 20px; /* Adjust space to the left of the right arrow */
+        }
     </style>
 </head>
 <body class="container-fluid py-5">
-	 <!-- Logo and Title -->
-	 <div class="header text-center">
-		<h1 id="dashboardTitle">Octopus Energy Tracker Prices</h1>
-		<i class="fas fa-arrow-left" id="prevDay"></i>
-		<h2 id="currentDate" style="font-size: 1.25rem; display: inline-block;"></h2>
-		<i class="fas fa-arrow-right" id="nextDay"></i>
-		<h2 id="currentRegion" style="font-size: 1.25rem;"></h2>
-	</div>
+     <!-- Logo and Title -->
+     <div class="header text-center">
+        <h1 id="dashboardTitle">Octopus Energy Tracker Prices</h1>
+        <i class="fas fa-arrow-left" id="prevDay"></i>
+        <h2 id="currentDate" style="font-size: 1.25rem; display: inline-block;"></h2>
+        <i class="fas fa-arrow-right" id="nextDay"></i>
+        <h2 id="currentRegion" style="font-size: 1.25rem;"></h2>
+    </div>
 
     <div class="settings-icon" onclick="toggleSettingsPanel()">
         <i class="fas fa-cog"></i>
     </div>
     <div class="settings-panel">
-		<!-- Close button at the top right corner of the settings panel -->
-		<button class="btn-close" onclick="toggleSettingsPanel()">X</button>
-		<div class="mb-3">
-			<label for="datePicker" class="form-label">Select Date:</label>
-			<input type="date" id="datePicker" class="form-control">
-		</div>
-		<div class="mb-3">
-			<label for="regionPicker" class="form-label">Select Region:</label>
-			<select id="regionPicker" class="form-control">
-				<option value="A">Eastern England</option>
-				<option value="B">East Midlands</option>
-				<option value="C">London</option>
-				<option value="D">Merseyside and Northern Wales</option>
-				<option value="E">West Midlands</option>
-				<option value="F" selected>North Eastern England</option>
-				<option value="G">North Western England</option>
-				<option value="H">Southern England</option>
-				<option value="J">South Eastern England</option>
-				<option value="K">Southern Wales</option>
-				<option value="L">South Western England</option>
-				<option value="M">Yorkshire</option>
-				<option value="N">Southern Scotland</option>
-				<option value="P">Northern Scotland</option>
-			</select>
-		</div>
-		<div class="mb-3">
-			<button id="colorSchemeToggle" class="btn btn-secondary">Switch to Colorblind Mode</button>
-		</div>
+        <!-- Close button at the top right corner of the settings panel -->
+        <button class="btn-close" onclick="toggleSettingsPanel()">X</button>
+        <div class="mb-3">
+            <label for="datePicker" class="form-label">Select Date:</label>
+            <input type="date" id="datePicker" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="regionPicker" class="form-label">Select Region:</label>
+            <select id="regionPicker" class="form-control">
+                <option value="A">Eastern England</option>
+                <option value="B">East Midlands</option>
+                <option value="C">London</option>
+                <option value="D">Merseyside and Northern Wales</option>
+                <option value="E">West Midlands</option>
+                <option value="F" selected>North Eastern England</option>
+                <option value="G">North Western England</option>
+                <option value="H">Southern England</option>
+                <option value="J">South Eastern England</option>
+                <option value="K">Southern Wales</option>
+                <option value="L">South Western England</option>
+                <option value="M">Yorkshire</option>
+                <option value="N">Southern Scotland</option>
+                <option value="P">Northern Scotland</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="tariffPicker" class="form-label">Select Tariff:</label>
+            <select id="tariffPicker" class="form-control">
+                <option value="SILVER-23-12-06" selected>Dec 23 V1</option>
+                <option value="SILVER-24-04-03">APR 24 v1</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <button id="colorSchemeToggle" class="btn btn-secondary">Switch to Colorblind Mode</button>
+        </div>
     </div>
     <div class="d-flex flex-row justify-content-center flex-wrap">
         <div id="gasTariffData" class="tile">
@@ -244,131 +251,141 @@
         </div>
     </div>
     <script>
-		const datePicker = document.getElementById('datePicker');
-		const today = new Date();
-		const tomorrow = new Date(today);
-		tomorrow.setDate(tomorrow.getDate() + 1); // Add one day to get tomorrow
+        const datePicker = document.getElementById('datePicker');
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1); // Add one day to get tomorrow
 
-		const maxDate = tomorrow.toISOString().split('T')[0];
-		datePicker.setAttribute('max', maxDate); // Set tomorrow as the max date
+        const maxDate = tomorrow.toISOString().split('T')[0];
+        datePicker.setAttribute('max', maxDate); // Set tomorrow as the max date
 
-		datePicker.value = today.toISOString().split('T')[0]; // Set today as the default selected date
+        datePicker.value = today.toISOString().split('T')[0]; // Set today as the default selected date
 
-		function toggleSettingsPanel() {
-			const panel = document.querySelector('.settings-panel');
-			panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-		}
-		
-		let autoCloseTimeout = null; // Hold the timeout reference
+        function toggleSettingsPanel() {
+            const panel = document.querySelector('.settings-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        let autoCloseTimeout = null; // Hold the timeout reference
 
-		function toggleSettingsPanel() {
-			const panel = document.querySelector('.settings-panel');
-			panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        function toggleSettingsPanel() {
+            const panel = document.querySelector('.settings-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
 
-			// Clear existing timeout to prevent multiple instances
-			clearTimeout(autoCloseTimeout);
+            // Clear existing timeout to prevent multiple instances
+            clearTimeout(autoCloseTimeout);
 
-			// Set the panel to automatically close after 5 seconds if it's opened
-			if (panel.style.display === 'block') {
-				autoCloseTimeout = setTimeout(() => {
-					panel.style.display = 'none';
-				}, 5000); // 5000 milliseconds = 5 seconds
+            // Set the panel to automatically close after 5 seconds if it's opened
+            if (panel.style.display === 'block') {
+                autoCloseTimeout = setTimeout(() => {
+                    panel.style.display = 'none';
+                }, 5000); // 5000 milliseconds = 5 seconds
+            }
+        }
+
+        document.getElementById('datePicker').addEventListener('change', function() {
+            updateData(this.value); // Trigger data update when date changes
+            updateTitleDate(this.value); // Also update the title date
+        });
+
+        document.getElementById('regionPicker').addEventListener('change', function() {
+            updateCurrentRegion(); // Update displayed region information
+
+            const selectedRegion = this.value;
+            const newUrl = `${window.location.pathname}?region=${selectedRegion}`;
+            
+            history.pushState({path:newUrl}, '', newUrl);
+            updateData(); // Assuming this function fetches and updates data based on the selected region
+
+        });
+        
+        document.getElementById('tariffPicker').addEventListener('change', function() {
+            updateData(); // Trigger data update when tariff changes
+        });
+                
+        document.getElementById('datePicker').addEventListener('change', resetAutoCloseTimer);
+        document.getElementById('regionPicker').addEventListener('change', resetAutoCloseTimer);
+        document.getElementById('tariffPicker').addEventListener('change', resetAutoCloseTimer);
+        document.querySelector('.btn-close').addEventListener('click', resetAutoCloseTimer);
+        
+        // Additionally, consider other interactions that should reset the timer
+        document.querySelector('.settings-panel').addEventListener('mousemove', resetAutoCloseTimer);
+        document.querySelector('.settings-panel').addEventListener('keypress', resetAutoCloseTimer);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+			const params = new URLSearchParams(window.location.search);
+			const regionFromURL = params.get('region'); // Get 'region' parameter from URL
+			const tariffFromURL = params.get('tariff'); // Get 'tariff' parameter from URL
+
+			const regionPicker = document.getElementById('regionPicker');
+			if (regionFromURL) {
+				const normalizedRegionFromURL = regionFromURL.toUpperCase(); // Convert URL parameter to uppercase
+				for (const option of regionPicker.options) {
+					if (option.value === normalizedRegionFromURL) {
+						option.selected = true;
+						break;
+					}
+				}
 			}
-		}
 
-		document.getElementById('datePicker').addEventListener('change', function() {
-			updateData(this.value); // Trigger data update when date changes
-			updateTitleDate(this.value); // Also update the title date
+			const tariffPicker = document.getElementById('tariffPicker');
+			if (tariffFromURL) {
+				const normalizedTariffFromURL = tariffFromURL.toUpperCase(); // Convert URL parameter to uppercase
+				for (const option of tariffPicker.options) {
+					if (option.value === normalizedTariffFromURL) {
+						option.selected = true;
+						break;
+					}
+				}
+			}
+
+			// Trigger data update with the current selection
+			updateData();
+			updateCurrentRegion();
 		});
 
-		document.getElementById('regionPicker').addEventListener('change', function() {
-			updateCurrentRegion(); // Update displayed region information
-
-			const selectedRegion = this.value;
-			const newUrl = `${window.location.pathname}?region=${selectedRegion}`;
+		// Add event listener to update the URL when the tariff changes
+		document.getElementById('tariffPicker').addEventListener('change', function() {
+			const selectedTariff = this.value;
+			const currentRegion = document.getElementById('regionPicker').value;
+			const newUrl = `${window.location.pathname}?region=${currentRegion}&tariff=${selectedTariff}`;
 			
 			history.pushState({path:newUrl}, '', newUrl);
-			updateData(); // Assuming this function fetches and updates data based on the selected region
-
+			updateData(); // Fetch and update data based on the new tariff
 		});
-				
-		document.getElementById('datePicker').addEventListener('change', resetAutoCloseTimer);
-		document.getElementById('regionPicker').addEventListener('change', resetAutoCloseTimer);
-		document.querySelector('.btn-close').addEventListener('click', resetAutoCloseTimer);
-		
-		// Additionally, consider other interactions that should reset the timer
-		document.querySelector('.settings-panel').addEventListener('mousemove', resetAutoCloseTimer);
-		document.querySelector('.settings-panel').addEventListener('keypress', resetAutoCloseTimer);
-		
-		document.addEventListener('DOMContentLoaded', function() {
-		const params = new URLSearchParams(window.location.search);
-		const regionFromURL = params.get('region'); // Get 'region' parameter from URL
 
-		if (regionFromURL) {
-			const regionPicker = document.getElementById('regionPicker');
-			const normalizedRegionFromURL = regionFromURL.toUpperCase(); // Convert URL parameter to uppercase
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const prevDayButton = document.getElementById('prevDay');
+            const nextDayButton = document.getElementById('nextDay');
+            const datePicker = document.getElementById('datePicker');
 
-			// Iterate over dropdown options to find a case-insensitive match
-			for (const option of regionPicker.options) {
-			if (option.value === normalizedRegionFromURL) {
-				option.selected = true;
-				break; // Stop the loop once the matching option is found
-			}
-			}
-			
-			// Since the region might have changed, trigger any necessary updates
-			updateData(); // Assuming this function fetches and updates data based on the current region
-			updateCurrentRegion(); // Update displayed region information
-		}
-		});
-		
-		document.addEventListener('DOMContentLoaded', function() {
-			const prevDayButton = document.getElementById('prevDay');
-			const nextDayButton = document.getElementById('nextDay');
-			const datePicker = document.getElementById('datePicker');
+            const adjustDate = (days) => {
+                let currentDate = new Date(datePicker.value);
+                currentDate.setDate(currentDate.getDate() + days);
 
-			const adjustDate = (days) => {
-				let currentDate = new Date(datePicker.value);
-				currentDate.setDate(currentDate.getDate() + days);
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1); // Set tomorrow's date
 
-				const today = new Date();
-				const tomorrow = new Date(today);
-				tomorrow.setDate(tomorrow.getDate() + 1); // Set tomorrow's date
-
-				// Ensure the new date is not beyond tomorrow
-				if (currentDate <= tomorrow) {
-					datePicker.value = currentDate.toISOString().split('T')[0];
-					
-					updateData(datePicker.value); // Update the dashboard with the new date
-					updateTitleDate(datePicker.value); // Optionally, update the date in the title if you have this function
-				} else {
-					console.log("Cannot select a date beyond tomorrow."); // Optional: Handle attempts to exceed the date limit
-				}
-			};
-			
-			// Event listeners for the arrows
-			prevDayButton.addEventListener('click', () => adjustDate(-1));
-			nextDayButton.addEventListener('click', () => adjustDate(1));
-		});
-		
-
-				
-		
-
-        function isDstObserved(date) {
-            const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
-            const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
-            return Math.max(jan, jul) !== date.getTimezoneOffset();
-        }
+                // Ensure the new date is not beyond tomorrow
+                if (currentDate <= tomorrow) {
+                    datePicker.value = currentDate.toISOString().split('T')[0];
+                    
+                    updateData(datePicker.value); // Update the dashboard with the new date
+                    updateTitleDate(datePicker.value); // Optionally, update the date in the title if you have this function
+                } else {
+                    console.log("Cannot select a date beyond tomorrow."); // Optional: Handle attempts to exceed the date limit
+                }
+            };
+            
+            // Event listeners for the arrows
+            prevDayButton.addEventListener('click', () => adjustDate(-1));
+            nextDayButton.addEventListener('click', () => adjustDate(1));
+        });
 
         async function updateData(selectedDate) {
             const date = selectedDate ? new Date(selectedDate) : new Date();
-            
-            // Check if DST is observed on the selected date and adjust accordingly
-            const dstObserved = isDstObserved(date);
-            const adjustmentHour = dstObserved ? 1 : 0;
-            
-            date.setHours(date.getHours() + adjustmentHour); // Adjust the date if DST is observed
             const tomorrow = new Date(date);
             tomorrow.setDate(date.getDate() + 1);
 
@@ -380,27 +397,28 @@
             await fetchTariffData('gas', tomorrowDate, 'Tomorrow');
             await fetchTariffData('electricity', tomorrowDate, 'Tomorrow');
         }
-		
-		function updateTitleDate(selectedDate) {
-			const date = selectedDate ? new Date(selectedDate) : new Date();
-			const dateString = date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
-			document.getElementById('currentDate').textContent = `Date: ${dateString}`;
-		}
+        
+        function updateTitleDate(selectedDate) {
+            const date = selectedDate ? new Date(selectedDate) : new Date();
+            const dateString = date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('currentDate').textContent = `Date: ${dateString}`;
+        }
 
-
-		function updateCurrentRegion() {
-			const regionPicker = document.getElementById('regionPicker');
-			const selectedRegion = regionPicker.options[regionPicker.selectedIndex].text;
-			document.getElementById('currentRegion').textContent = `Region: ${selectedRegion}`;
-		}
+        function updateCurrentRegion() {
+            const regionPicker = document.getElementById('regionPicker');
+            const selectedRegion = regionPicker.options[regionPicker.selectedIndex].text;
+            document.getElementById('currentRegion').textContent = `Region: ${selectedRegion}`;
+        }
 
         async function fetchTariffData(tariffType, date, period) {
 			const regionPicker = document.getElementById('regionPicker');
+			const tariffPicker = document.getElementById('tariffPicker');
 			const selectedRegion = regionPicker.value; // Get the selected region value
+			const selectedTariff = tariffPicker.value; // Get the selected tariff value
 
-			// Adjust the URL to use the selected region
-			const baseUrl = `https://api.octopus.energy/v1/products/SILVER-23-12-06/${tariffType}-tariffs/${tariffType[0].toUpperCase()}-1R-SILVER-23-12-06-${selectedRegion}/standard-unit-rates/`;
-			const url = `${baseUrl}?period_from=${date}T00:00:00Z&period_to=${date}T23:59:59Z`;
+			// Adjust the URL to use the selected region and tariff
+			const baseUrl = `https://api.octopus.energy/v1/products/${selectedTariff}/${tariffType}-tariffs/${tariffType[0].toUpperCase()}-1R-${selectedTariff}-${selectedRegion}/standard-unit-rates/`;
+			const url = `${baseUrl}?period_from=${date}T00:00:00Z&period_to=${date}T22:59:59Z`;
 			
 			const response = await fetch(url);
 			if (response.ok) {
@@ -412,133 +430,127 @@
 		}
 
 
-		function displayPriceAndDate(result, elementId, tariffType, period) {
-			const container = document.getElementById(elementId);
-			if (period === 'Today') {
-				const priceHTML = `<div class='price'>${result.value_inc_vat.toFixed(2)}p</div>`;
-				// Check the tariff type and apply appropriate color
-				let iconColor = tariffType === 'gas' ? 'style="color:orange;"' : 'style="color:YELLOW;"';
-				let iconClass = tariffType === 'gas' ? 'fa-burn' : 'fa-bolt';
-				container.innerHTML = `<i class="fas ${iconClass} icon" ${iconColor}></i>
-									<div class='title h5'>${tariffType.toUpperCase()} Tariff</div>
-									${priceHTML}
-									<div class='tomorrow-price' id='tomorrow-${tariffType}'>Loading...</div>`;
-			} else if (period === 'Tomorrow') {
-				if (!result || result.value_inc_vat === undefined) {
-					document.getElementById(`tomorrow-${tariffType}`).innerHTML = "Tomorrow: Available Soon";
-					return;
-				}
+        function displayPriceAndDate(result, elementId, tariffType, period) {
+            const container = document.getElementById(elementId);
+            if (period === 'Today') {
+                const priceHTML = `<div class='price'>${result.value_inc_vat.toFixed(2)}p</div>`;
+                // Check the tariff type and apply appropriate color
+                let iconColor = tariffType === 'gas' ? 'style="color:orange;"' : 'style="color:YELLOW;"';
+                let iconClass = tariffType === 'gas' ? 'fa-burn' : 'fa-bolt';
+                container.innerHTML = `<i class="fas ${iconClass} icon" ${iconColor}></i>
+                                    <div class='title h5'>${tariffType.toUpperCase()} Tariff</div>
+                                    ${priceHTML}
+                                    <div class='tomorrow-price' id='tomorrow-${tariffType}'>Loading...</div>`;
+            } else if (period === 'Tomorrow') {
+                if (!result || result.value_inc_vat === undefined) {
+                    document.getElementById(`tomorrow-${tariffType}`).innerHTML = "Tomorrow: Available Soon";
+                    return;
+                }
 
-				const tomorrowPrice = parseFloat(result.value_inc_vat.toFixed(2));
-				const todayElement = document.getElementById(`${tariffType}TariffData`);
-				const todayPriceElement = todayElement.querySelector('.price');
-				const todayPrice = todayPriceElement ? parseFloat(todayPriceElement.textContent.replace('p', '')) : 0;
+                const tomorrowPrice = parseFloat(result.value_inc_vat.toFixed(2));
+                const todayElement = document.getElementById(`${tariffType}TariffData`);
+                const todayPriceElement = todayElement.querySelector('.price');
+                const todayPrice = todayPriceElement ? parseFloat(todayPriceElement.textContent.replace('p', '')) : 0;
 
-				let priceClass = '', iconHtml = 'Tomorrow:&nbsp;', percentageChange = 0;
-				if (tomorrowPrice > todayPrice) {
-					priceClass = 'highlight-red';
-					percentageChange = ((tomorrowPrice - todayPrice) / todayPrice) * 100;
-					iconHtml += `<i class="fas fa-arrow-up" style="color:red;"></i>&nbsp;`;
-				} else if (tomorrowPrice < todayPrice) {
-					priceClass = 'highlight-green';
-					percentageChange = ((todayPrice - tomorrowPrice) / todayPrice) * 100;
-					iconHtml += `<i class="fas fa-arrow-down" style="color:green;"></i>&nbsp;`;
-				} else {
-					// For equality, no change in price or percentage
-				}
+                let priceClass = '', iconHtml = 'Tomorrow:&nbsp;', percentageChange = 0;
+                if (tomorrowPrice > todayPrice) {
+                    priceClass = 'highlight-red';
+                    percentageChange = ((tomorrowPrice - todayPrice) / todayPrice) * 100;
+                    iconHtml += `<i class="fas fa-arrow-up" style="color:red;"></i>&nbsp;`;
+                } else if (tomorrowPrice < todayPrice) {
+                    priceClass = 'highlight-green';
+                    percentageChange = ((todayPrice - tomorrowPrice) / todayPrice) * 100;
+                    iconHtml += `<i class="fas fa-arrow-down" style="color:green;"></i>&nbsp;`;
+                } else {
+                    // For equality, no change in price or percentage
+                }
 
-				// Removing explicit color style to use the class-based coloring
-				let percentageChangeHtml = percentageChange > 0 ? ` <span class="${priceClass}" style="font-size:0.8rem;">(${percentageChange.toFixed(2)}%)</span>` : '';
+                // Removing explicit color style to use the class-based coloring
+                let percentageChangeHtml = percentageChange > 0 ? ` <span class="${priceClass}" style="font-size:0.8rem;">(${percentageChange.toFixed(2)}%)</span>` : '';
 
-				const tomorrowElement = document.getElementById(`tomorrow-${tariffType}`);
-				tomorrowElement.innerHTML = `${iconHtml}<span class="${priceClass}">${tomorrowPrice}p</span>&nbsp;${percentageChangeHtml}`;
-			}
-		}
+                const tomorrowElement = document.getElementById(`tomorrow-${tariffType}`);
+                tomorrowElement.innerHTML = `${iconHtml}<span class="${priceClass}">${tomorrowPrice}p</span>&nbsp;${percentageChangeHtml}`;
+            }
+        }
 
-
-
-
-
-		
-		function resetAutoCloseTimer() {
-			clearTimeout(autoCloseTimeout); // Clear existing timer
-			
-			// Set a new timer
-			autoCloseTimeout = setTimeout(() => {
-				document.querySelector('.settings-panel').style.display = 'none';
-			}, 5000); // Close after 5 seconds of inactivity
-		}
-		
-		function toggleSettingsPanel() {
-			const panel = document.querySelector('.settings-panel');
-			const isPanelOpen = panel.style.display === 'block';
-
-			panel.style.display = isPanelOpen ? 'none' : 'block';
-
-			if (!isPanelOpen) { // If we're opening the panel, reset/start the auto-close timer
-				resetAutoCloseTimer();
-			}
-		}
-		
-		document.addEventListener('DOMContentLoaded', function() {
-			// Check if the close button exists
-			var closeButton = document.querySelector('.close-btn');
-			if (closeButton) {
-				closeButton.addEventListener('click', function() {
-					// Hide the referral link container when the close button is clicked
-					var referralLinkContainer = document.querySelector('.referral-link');
-					if (referralLinkContainer) {
-						referralLinkContainer.style.display = 'none';
-					}
-				});
-			}
-			// Check if the close button exists
-			var closeButton = document.querySelector('.close-btn');
-			if (closeButton) {
-				closeButton.addEventListener('click', function() {
-					// Hide the referral link container when the close button is clicked
-					var referralLinkContainer = document.querySelector('.referral-link');
-					if (referralLinkContainer) {
-						referralLinkContainer.style.display = 'none';
-					}
-				});
-			}
-});
-
-		
-		window.onload = function() {
-			updateData(); // Initial data load
-			updateTitleDate(); // Set the current date at load
-			updateCurrentRegion(); // Set the current region at load
-
-        // Set interval for auto-refresh every hour (3600000 milliseconds)
-        setInterval(function() {
-            updateData();
-			updateTitleDate(); // Set the current date at load
-			updateCurrentRegion(); // Set the current region at load
-        }, 3600000); // 3600000 milliseconds = 1 hour
-    };
-	document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.getElementById('colorSchemeToggle');
-    
-    toggleButton.addEventListener('click', function() {
-        document.body.classList.toggle('colorblind');
+        function resetAutoCloseTimer() {
+            clearTimeout(autoCloseTimeout); // Clear existing timer
+            
+            // Set a new timer
+            autoCloseTimeout = setTimeout(() => {
+                document.querySelector('.settings-panel').style.display = 'none';
+            }, 5000); // Close after 5 seconds of inactivity
+        }
         
-        const isColorblindMode = document.body.classList.contains('colorblind');
-        localStorage.setItem('colorScheme', isColorblindMode ? 'colorblind' : 'default');
-        toggleButton.textContent = isColorblindMode ? "Switch to Default Mode" : "Switch to Colorblind Mode";
-    });
+        function toggleSettingsPanel() {
+            const panel = document.querySelector('.settings-panel');
+            const isPanelOpen = panel.style.display === 'block';
 
-    // Apply saved theme
-    if (localStorage.getItem('colorScheme') === 'colorblind') {
-        document.body.classList.add('colorblind');
-        toggleButton.textContent = "Switch to Default Mode";
-    }
-	});
+            panel.style.display = isPanelOpen ? 'none' : 'block';
+
+            if (!isPanelOpen) { // If we're opening the panel, reset/start the auto-close timer
+                resetAutoCloseTimer();
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if the close button exists
+            var closeButton = document.querySelector('.close-btn');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    // Hide the referral link container when the close button is clicked
+                    var referralLinkContainer = document.querySelector('.referral-link');
+                    if (referralLinkContainer) {
+                        referralLinkContainer.style.display = 'none';
+                    }
+                });
+            }
+            // Check if the close button exists
+            var closeButton = document.querySelector('.close-btn');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    // Hide the referral link container when the close button is clicked
+                    var referralLinkContainer = document.querySelector('.referral-link');
+                    if (referralLinkContainer) {
+                        referralLinkContainer.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        window.onload = function() {
+            updateData(); // Initial data load
+            updateTitleDate(); // Set the current date at load
+            updateCurrentRegion(); // Set the current region at load
+
+            // Set interval for auto-refresh every hour (3600000 milliseconds)
+            setInterval(function() {
+                updateData();
+                updateTitleDate(); // Set the current date at load
+                updateCurrentRegion(); // Set the current region at load
+            }, 3600000); // 3600000 milliseconds = 1 hour
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('colorSchemeToggle');
+            
+            toggleButton.addEventListener('click', function() {
+                document.body.classList.toggle('colorblind');
+                
+                const isColorblindMode = document.body.classList.contains('colorblind');
+                localStorage.setItem('colorScheme', isColorblindMode ? 'colorblind' : 'default');
+                toggleButton.textContent = isColorblindMode ? "Switch to Default Mode" : "Switch to Colorblind Mode";
+            });
+
+            // Apply saved theme
+            if (localStorage.getItem('colorScheme') === 'colorblind') {
+                document.body.classList.add('colorblind');
+                toggleButton.textContent = "Switch to Default Mode";
+            }
+        });
     </script>
-	<div class="referral-link text-center py-4">
-		<button class="close-btn">&times;</button>
-		<a href="https://share.octopus.energy/teal-lion-434" class="btn btn-primary" target="_blank">Join Octopus Energy and Get £50 Credit!</a>
-</div>
+    <div class="referral-link text-center py-4">
+        <button class="close-btn">&times;</button>
+        <a href="https://share.octopus.energy/teal-lion-434" class="btn btn-primary" target="_blank">Join Octopus Energy and Get £50 Credit!</a>
+    </div>
 </body>
 </html>
